@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.MysqlColumn;
 import Model.MysqlTable;
 import util.Util;
 
@@ -12,11 +13,11 @@ public class CommonDAO {
 
     private String dbUserName = "root";
 
-    private String dbPassword = "";
+    private String dbPassword = "root";
 
-    private String dbName  = "";
+    private String dbName  = "schoolmanagement";
 
-    private String dbUrl;
+    private String dbUrl = "jdbc:mysql://localhost:3306/schoolmanagement";
 
 
 
@@ -44,7 +45,7 @@ public class CommonDAO {
         Connection dbConnection = null;
         Statement statement = null;
 
-        String readTableSchemaSQL = "desc " + table;
+        String readTableSchemaSQL = "DESC " + dbName + "." + table;
         MysqlTable mysqlTable = new MysqlTable(Util.mysqlTabletoJavaClassName(table));
         try {
             dbConnection = getConnection();
@@ -52,7 +53,9 @@ public class CommonDAO {
             ResultSet rs = statement.executeQuery(readTableSchemaSQL);
 
             while (rs.next()){
-
+                String fieldName = rs.getString("Field");
+                String fieldType = rs.getString("Type");
+                MysqlColumn mysqlColumn = new MysqlColumn();
             }
 
         }catch (Exception e){
@@ -73,7 +76,12 @@ public class CommonDAO {
             }
 
         }
+        return mysqlTable;
 
+    }
+
+    public static void main(String[] args){
+        new CommonDAO().readSchema("student");
     }
 
 
