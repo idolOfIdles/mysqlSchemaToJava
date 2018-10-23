@@ -25,6 +25,10 @@ public class MysqlColumn {
         return Type;
     }
 
+    public String getTypeName() {
+        return Type.indexOf("(") >= 0 ? Type.substring(0, Type.indexOf("(")) : Type;
+    }
+
     public void setType(String type) {
         Type = type;
     }
